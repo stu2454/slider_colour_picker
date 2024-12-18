@@ -5,7 +5,8 @@ const cors = require('cors');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
+//app.use(cors());
+app.use(cors({ origin: 'https://pick-a-colour.onrender.com' }));
 
 const GITHUB_API_URL = 'https://api.github.com/repos/stu2454/slider_colour_picker/contents/server/data.json';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
