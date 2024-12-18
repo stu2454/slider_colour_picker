@@ -117,6 +117,36 @@ function selectColor(event) {
     updateSlider(slider);
 }
 
+// Dynamically update the thumb colour
+function updateThumbColor(event) {
+    const colourPicker = document.querySelector('.color-picker-bar');
+    const rect = colourPicker.getBoundingClientRect();
+    const y = event.clientY - rect.top;
+    const height = rect.height;
+    const position = Math.max(0, Math.min(y / height, 1)); // Normalised position (0 to 1)
+
+    // Generate the RGB colour from position
+    const gradientColors = [
+        [255, 0, 0], [255, 165, 0], [255, 255, 0], 
+        [0, 128, 0], [0, 0, 255], [75, 0, 130], [238, 130, 238]
+    ];
+    const stops = gradientColors.length - 1;
+    const stopIndex = Math.floor(position * stops);
+    const color1 = gradientColors[stopIndex];
+    const color2 = gradientColors[Math.min(stopIndex + 1, stops)];
+    const blend = (position * stops) - stopIndex;
+
+    const r = Math.round(color1[0] + (color2[0] - color1[0]) * blend);
+    const g = Math.round(color1[1] + (color2[1] - color1[1]) * blend);
+    const b = Math.round(color1[2] + (color2[2] - color1[2]) * blend);
+
+    const selectedColor = `rgb(${r}, ${g}, ${b})`;
+
+    // Update the slider thumb dynamically
+    const slider = document.querySelector('.slider');
+    slider.style.setProperty('--thumb-color', selectedColor);
+}
+
 // Save the selected colour to the backend
 function saveSelectedColour(selectedColour) {
     console.log('saveSelectedColour called with:', selectedColour); // Debugging log
