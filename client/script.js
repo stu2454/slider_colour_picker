@@ -147,10 +147,12 @@ function updateThumbColor(event) {
     slider.style.setProperty('--thumb-color', selectedColor);
 }
 
+const backendURL = 'https://slider-colour-picker.onrender.com';
+
 // Save the selected colour to the backend
 function saveSelectedColour(selectedColour) {
     console.log('saveSelectedColour called with:', selectedColour); // Debugging log
-    fetch('http://localhost:3000/save-colour', {
+    fetch('${backendURL/save-colour', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ selectedColour }),
