@@ -1,0 +1,99 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+/* Colour Picker Section */
+.color-picker-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    height: 80%;
+    margin-right: 5%; /* Adjust distance to slider */
+}
+
+.color-picker-bar {
+    height: 100%;
+    width: 50px;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    background: linear-gradient(to bottom, red, orange, yellow, green, blue, indigo, violet);
+}
+
+/* Slider Section */
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 25%;
+    position: relative;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80%;
+    height: 20px;
+    border-radius: 10px;
+    background: linear-gradient(to right, var(--dark-color) 0%, var(--light-color) 100%);
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--thumb-color);
+    border: 3px solid #f5f5f5;
+    cursor: pointer;
+}
+
+.value-box {
+    font-weight: bold;
+    text-align: center;
+    width: 60px;
+}
+
+/* Button Styles */
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #6b2976; /* Example NDIS purple */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8c3696;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--thumb-color, #000); /* Default to black if not set */
+    border: 3px solid #f5f5f5;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--thumb-color, #000);
+    border: 3px solid #f5f5f5;
+    cursor: pointer;
+}

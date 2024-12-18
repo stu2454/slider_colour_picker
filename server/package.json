@@ -1,0 +1,23 @@
+{
+    "name": "colour-picker-proxy",
+    "version": "1.0.0",
+    "description": "Proxy server for saving selected colours to GitHub",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "body-parser": "^1.20.2",
+      "dotenv": "^16.0.4",
+      "express": "^4.18.2",
+      "node-fetch": "^3.3.1"
+    },
+    "devDependencies": {},
+    "engines": {
+      "node": ">=16.0.0"
+    },
+    "keywords": ["proxy", "GitHub", "colour-picker", "node"],
+    "author": "Your Name",
+    "license": "MIT"
+  }
+  

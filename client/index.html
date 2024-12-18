@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colour Picker Slider</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="color-picker-section">
+        <p>Click on a colour and slide the slider</p>
+        <div class="color-picker-bar" onmousemove="updateThumbColor(event)"></div>
+    </div>
+    <div class="slider-container">
+        <h2>Selected Colour Slider</h2>
+        <input type="range" class="slider" min="0" max="100" value="50">
+        <div class="value-box" id="slider-value">50</div>
+        <button onclick="confirmSelection()">Select</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
