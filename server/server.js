@@ -1,14 +1,13 @@
 require('dotenv').config(); // Load environment variables from .env
 const express = require('express');
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
 const cors = require('cors');
+const app = express();
+
+app.use(bodyParser.json());
 app.use(cors());
 
-const app = express();
-app.use(bodyParser.json());
-
-const GITHUB_API_URL = 'https://api.github.com/repos/stu2454/contents/slider_colour_picker/server/data.json';
+const GITHUB_API_URL = 'https://api.github.com/repos/stu2454/slider_colour_picker/contents/server/data.json';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 //test if token is available
@@ -17,6 +16,9 @@ console.log('Loaded GitHub Token:', GITHUB_TOKEN ? 'Exists' : 'Not Found');
 
 // Route to handle saving selected colours
 app.post('/save-colour', async (req, res) => {
+    console.log('Incoming request to /save-colour');//debugging log
+    console.log('Request body:', req.body); //debugging log
+
     const { selectedColour } = req.body;
 
     if (!selectedColour) {
@@ -24,31 +26,32 @@ app.post('/save-colour', async (req, res) => {
     }
 
     try {
-        console.log('Attempting to fetch data.json from GitHub...');
+        console.log('Using GitHub API URL:', GITHUB_API_URL);
+    
         const response = await fetch(GITHUB_API_URL, {
             headers: { Authorization: `Bearer ${GITHUB_TOKEN}` },
         });
-
-        console.log('HTTP status:', response.status); // Logs the status code
-        console.log('Response headers:', response.headers.raw()); // Logs headers
-        console.log('Response body:', await response.text()); // Logs body content
-
+    
+        console.log('HTTP status:', response.status);
+    
         if (!response.ok) {
+            console.error('GitHub API Error:', await response.text());
             throw new Error(`Failed to fetch data.json: ${response.statusText}`);
         }
-
+    
         const fileData = await response.json();
-
-        // Decode the existing content
-        const currentContent = JSON.parse(Buffer.from(fileData.content, 'base64').toString('utf-8'));
-
-        // Append the new colour to the array
-        currentContent.selectedColours.push(selectedColour);
-
-        // Encode the updated content back to Base64
-        const updatedContent = Buffer.from(JSON.stringify(currentContent, null, 2)).toString('base64');
-
-        // Push the updated content back to GitHub
+        console.log('Fetched file data:', fileData);
+    
+        const currentContent = JSON.parse(
+            Buffer.from(fileData.content, 'base64').toString('utf-8')
+        );
+    
+        currentContent.selectedColours.push(req.body.selectedColour);
+    
+        const updatedContent = Buffer.from(
+            JSON.stringify(currentContent, null, 2)
+        ).toString('base64');
+    
         const updateResponse = await fetch(GITHUB_API_URL, {
             method: 'PUT',
             headers: {
@@ -58,17 +61,15 @@ app.post('/save-colour', async (req, res) => {
             body: JSON.stringify({
                 message: 'Update selected colours',
                 content: updatedContent,
-                sha: fileData.sha, // Required to avoid conflicts
+                sha: fileData.sha,
             }),
         });
-
-        console.log('Update response status:', updateResponse.status); // Logs status of the update request
-        console.log('Update response body:', await updateResponse.text()); // Logs the response body
-
+    
         if (!updateResponse.ok) {
+            console.error('Error updating data.json:', await updateResponse.text());
             throw new Error(`Failed to update data.json: ${updateResponse.statusText}`);
         }
-
+    
         res.status(200).json({ message: 'Colour saved successfully!' });
     } catch (error) {
         console.error('Error saving colour:', error);
