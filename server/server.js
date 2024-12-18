@@ -2,12 +2,18 @@ require('dotenv').config(); // Load environment variables from .env
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
+const cors = require('cors');
+app.use(cors());
 
 const app = express();
 app.use(bodyParser.json());
 
-const GITHUB_API_URL = 'https://api.github.com/repos/stu2454/slider_colour_picker/contents/server/data.json';
+const GITHUB_API_URL = 'https://api.github.com/repos/stu2454/contents/slider_colour_picker/server/data.json';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+//test if token is available
+console.log('Loaded GitHub Token:', GITHUB_TOKEN ? 'Exists' : 'Not Found');
+
 
 // Route to handle saving selected colours
 app.post('/save-colour', async (req, res) => {
@@ -18,10 +24,14 @@ app.post('/save-colour', async (req, res) => {
     }
 
     try {
-        // Fetch the current data.json file from GitHub
+        console.log('Attempting to fetch data.json from GitHub...');
         const response = await fetch(GITHUB_API_URL, {
             headers: { Authorization: `Bearer ${GITHUB_TOKEN}` },
         });
+
+        console.log('HTTP status:', response.status); // Logs the status code
+        console.log('Response headers:', response.headers.raw()); // Logs headers
+        console.log('Response body:', await response.text()); // Logs body content
 
         if (!response.ok) {
             throw new Error(`Failed to fetch data.json: ${response.statusText}`);
@@ -52,6 +62,9 @@ app.post('/save-colour', async (req, res) => {
             }),
         });
 
+        console.log('Update response status:', updateResponse.status); // Logs status of the update request
+        console.log('Update response body:', await updateResponse.text()); // Logs the response body
+
         if (!updateResponse.ok) {
             throw new Error(`Failed to update data.json: ${updateResponse.statusText}`);
         }
@@ -62,6 +75,7 @@ app.post('/save-colour', async (req, res) => {
         res.status(500).json({ message: 'Failed to save colour.' });
     }
 });
+
 
 app.get('/', (req, res) => {
     res.send('Welcome to the Colour Picker Proxy Server!');
