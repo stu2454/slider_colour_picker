@@ -46,5 +46,5 @@ client/build/
 *.old
 
 # Ignore specific JSON files (if necessary)
-server/data.json
+#server/data.json
 

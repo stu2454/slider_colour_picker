@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 const app = express();
 app.use(bodyParser.json());
 
-const GITHUB_API_URL = 'https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/contents/server/data.json';
+const GITHUB_API_URL = 'https://api.github.com/repos/stu2454/slider_colour_picker/contents/server/data.json';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 // Route to handle saving selected colours
@@ -61,6 +61,10 @@ app.post('/save-colour', async (req, res) => {
         console.error('Error saving colour:', error);
         res.status(500).json({ message: 'Failed to save colour.' });
     }
+});
+
+app.get('/', (req, res) => {
+    res.send('Welcome to the Colour Picker Proxy Server!');
 });
 
 // Start the server
