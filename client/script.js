@@ -151,16 +151,22 @@ const backendURL = 'https://slider-colour-picker.onrender.com';
 
 // Save the selected colour to the backend
 function saveSelectedColour(selectedColour) {
-    console.log('saveSelectedColour called with:', selectedColour); // Debugging log
-    fetch('${backendURL/save-colour', {
+    console.log('saveSelectedColour called with:', selectedColour);
+
+    fetch('https://slider-colour-picker.onrender.com/save-colour', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ selectedColour }),
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Response from backend:', data); // Debugging log
-            alert(data.message || 'Colour saved successfully!');
+        .then(response => {
+            console.log('Raw response:', response);
+            return response.text(); // Use .text() temporarily to debug
+        })
+        .then(text => {
+            console.log('Response text:', text);
+            const json = JSON.parse(text); // Parse manually
+            console.log('Parsed JSON:', json);
+            alert(json.message || 'Colour saved successfully!');
         })
         .catch(error => {
             console.error('Error saving colour:', error);
