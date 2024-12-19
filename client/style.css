@@ -5,7 +5,8 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f5f5f5;
+    background-color: #6B2976; /* NDIS purple */
+    color: white; /*ensures readability of text against purple background */
 }
 
 /* Colour Picker Section */
@@ -22,7 +23,7 @@ body {
 .color-picker-bar {
     height: 100%;
     width: 50px;
-    border: 2px solid #ccc;
+    border: 2px solid #FFFFFF; /* WHITE BORDER */
     cursor: pointer;
     background: linear-gradient(to bottom, red, orange, yellow, green, blue, indigo, violet);
 }
@@ -35,6 +36,9 @@ body {
     gap: 20px;
     width: 25%;
     position: relative;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .slider {
@@ -78,6 +82,10 @@ button:hover {
     background-color: #8c3696;
 }
 
+.button{
+    background-color; #FFFFFF;
+    COLOR: #6B2976;/* NDIS PURPLE */
+}
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
